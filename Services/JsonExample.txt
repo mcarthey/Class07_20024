@@ -1,0 +1,34 @@
+﻿
+    public class Car
+    {
+        public string Name { get; set; }
+        public string Make { get; set; }
+    }
+
+    public MainService()
+    {
+        Car car = new Car();
+        car.Name = "Raptor";
+        car.Make = "Ford";
+
+        // WRITE (write the string to the file)
+        // convert from a model to a string
+        var json = JsonConvert.SerializeObject(car);
+        Console.WriteLine($"Json string is {json}");
+
+        using (var sw = new StreamWriter("car.json"))
+        {
+            sw.WriteLine(json);
+        }
+
+        // READ (read the string and cast to a model type)
+        // convert from a string to a model
+        using (var sr = new StreamReader("car.json"))
+        {
+            var line = sr.ReadLine();
+            var model = JsonConvert.DeserializeObject<Car>(line);
+            Console.WriteLine($"Car {model.Make} name is {model.Name}");
+
+        }
+
+    }
